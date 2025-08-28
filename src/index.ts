@@ -3,9 +3,21 @@
  * Provides comprehensive internationalization support for CVPlus
  */
 
+// Import types first
+import type {
+  SupportedLanguage,
+  TranslationOptions,
+  TranslationServiceConfig,
+  TranslationValidation,
+} from './types';
+
+// Import core services
+import { translationService, TranslationService } from './services/translation.service';
+import { RTLService, rtlService, RTLWrapper } from './rtl';
+
 // Core exports
-export { translationService, TranslationService } from './services/translation.service';
-export { RTLService, rtlService, RTLWrapper } from './rtl';
+export { translationService, TranslationService };
+export { RTLService, rtlService, RTLWrapper };
 
 // Types
 export type {
@@ -202,8 +214,8 @@ export const dev = {
 // Re-export everything from types for convenience
 export * from './types';
 
-// Default export
-export default {
+// Default export with all functionality
+const I18n = {
   translationService,
   rtlService,
   initializeI18n,
@@ -220,3 +232,5 @@ export default {
   forms,
   dev,
 };
+
+export default I18n;

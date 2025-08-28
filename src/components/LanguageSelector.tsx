@@ -54,7 +54,10 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             setIsOpen(true);
             setFocusedIndex(availableLanguages.findIndex(lang => lang === currentLanguage));
           } else if (focusedIndex >= 0) {
-            handleLanguageSelect(availableLanguages[focusedIndex]);
+            const selectedLanguage = availableLanguages[focusedIndex];
+            if (selectedLanguage) {
+              handleLanguageSelect(selectedLanguage);
+            }
           }
         }
         break;
@@ -181,7 +184,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           disabled={disabled}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
-          aria-label={t('language.selector.aria.label', { current: currentConfig?.name || currentLanguage })}
+          aria-label={t('language.selector.aria.label', { replace: { current: currentConfig?.name || currentLanguage } })}
         >
           {showFlags && currentConfig?.flag && (
             <span className="text-lg" role="img" aria-hidden="true">

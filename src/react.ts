@@ -4,12 +4,12 @@
  */
 
 // React hooks
-export { useTranslation } from './hooks/useTranslation';
-export { useRTL } from './rtl';
+import { useTranslation } from './hooks/useTranslation';
+import { useRTL, RTLWrapper, rtlService } from './rtl';
 
 // React components
-export { LanguageSelector } from './components/LanguageSelector';
-export { 
+import { LanguageSelector } from './components/LanguageSelector';
+import { 
   TranslatedText,
   withTranslation,
   ConditionalTranslation,
@@ -17,15 +17,36 @@ export {
   GenderAwareTranslation,
   ProfessionalTranslation,
 } from './components/TranslatedText';
-export { RTLWrapper } from './rtl';
 
 // React providers
-export { I18nProvider } from './providers/I18nProvider';
+import { I18nProvider } from './providers/I18nProvider';
 
 // React utilities
-export { createI18nContext } from './providers/context';
+import { createI18nContext } from './providers/context';
 
-// Re-export core functionality for React apps
+// Core functionality for React apps
+import {
+  translationService,
+  initializeI18n,
+  SUPPORTED_LANGUAGES,
+  LANGUAGE_CONFIG,
+  TRANSLATION_NAMESPACES,
+} from './index';
+
+// Export everything individually
+export { useTranslation };
+export { useRTL, RTLWrapper };
+export { LanguageSelector };
+export { 
+  TranslatedText,
+  withTranslation,
+  ConditionalTranslation,
+  PluralTranslation,
+  GenderAwareTranslation,
+  ProfessionalTranslation,
+};
+export { I18nProvider };
+export { createI18nContext };
 export {
   translationService,
   rtlService,
@@ -33,7 +54,7 @@ export {
   SUPPORTED_LANGUAGES,
   LANGUAGE_CONFIG,
   TRANSLATION_NAMESPACES,
-} from './index';
+};
 
 // Re-export types needed for React components
 export type {
@@ -46,7 +67,8 @@ export type {
   RTLLayoutOptions,
 } from './types';
 
-export default {
+// Default export with all React-specific functionality
+const ReactI18n = {
   useTranslation,
   useRTL,
   LanguageSelector,
@@ -58,4 +80,13 @@ export default {
   PluralTranslation,
   GenderAwareTranslation,
   ProfessionalTranslation,
+  createI18nContext,
+  translationService,
+  rtlService,
+  initializeI18n,
+  SUPPORTED_LANGUAGES,
+  LANGUAGE_CONFIG,
+  TRANSLATION_NAMESPACES,
 };
+
+export default ReactI18n;

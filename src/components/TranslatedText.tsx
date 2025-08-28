@@ -39,7 +39,7 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
         return fallback;
       }
       if (typeof fallback === 'function') {
-        return fallback();
+        return (fallback as () => string)();
       }
     }
 
@@ -107,7 +107,7 @@ function interpolateReactChildren(
     }
     
     // Add corresponding child element
-    const childIndex = parseInt(match[1]);
+    const childIndex = parseInt(match[1] || '0');
     if (childIndex < childArray.length) {
       parts.push(childArray[childIndex]);
     } else {
@@ -148,7 +148,7 @@ export function withTranslation<T extends Record<string, any>>(
         return t(i18nKey);
       } catch (error) {
         console.warn(`Translation error for key "${i18nKey}":`, error);
-        return fallbackProp ? props[fallbackProp] : i18nKey;
+        return fallbackProp ? (props as any)[fallbackProp] : i18nKey;
       }
     }, [i18nKey, t, props, fallbackProp]);
 

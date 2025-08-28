@@ -12,6 +12,10 @@ export type SupportedLanguage =
   | 'ja' // Japanese
   | 'zh' // Chinese (Simplified)
   | 'ar' // Arabic
+  | 'he' // Hebrew
+  | 'fa' // Persian/Farsi
+  | 'ur' // Urdu
+  | 'dv' // Divehi
   | 'ru' // Russian
   | 'nl'; // Dutch
 
@@ -63,7 +67,11 @@ export type TranslationNamespace =
   | 'roles'
   | 'skills'
   | 'industries'
-  | 'validation';
+  | 'validation'
+  | 'test'
+  | 'enterprise'
+  | 'compliance'
+  | 'audit';
 
 export interface TranslationOptions {
   count?: number;
@@ -210,7 +218,7 @@ export interface TranslationServiceConfig {
     maxSize: number;
   };
   detection: {
-    order: ('localStorage' | 'cookie' | 'navigator' | 'htmlTag')[];
+    order: ('localStorage' | 'cookie' | 'navigator' | 'htmlTag' | 'subdomain')[];
     caches: ('localStorage' | 'cookie')[];
     cookieOptions: {
       path: string;
@@ -379,13 +387,4 @@ export interface I18nAnalytics {
   performanceMetrics: I18nPerformanceMetrics;
 }
 
-export default {
-  SupportedLanguage,
-  TextDirection,
-  LanguageConfig,
-  TranslationKey,
-  TranslationNamespace,
-  TranslationOptions,
-  I18nHookReturn,
-  I18nError,
-};
+// No default export for types-only module

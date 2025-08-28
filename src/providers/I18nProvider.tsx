@@ -160,7 +160,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
 
   return (
     <I18nContext.Provider value={contextValue}>
-      <I18nextProvider i18n={translationService['i18n'] || (global as any).i18n}>
+      <I18nextProvider i18n={translationService.i18n}>
         <div dir={direction} lang={currentLanguage} className={`i18n-root ${direction}`}>
           {children}
         </div>
@@ -200,7 +200,7 @@ export function withI18nProvider<P extends Record<string, any>>(
   const WrappedComponent = React.forwardRef<any, P>((props, ref) => {
     return (
       <I18nProvider {...providerProps}>
-        <Component {...props} ref={ref} />
+        <Component {...(props as any)} ref={ref} />
       </I18nProvider>
     );
   });

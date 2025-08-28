@@ -102,8 +102,8 @@ export class TranslationService {
           
           interpolation: {
             escapeValue: false, // React already escapes
-            format: (value: any, format: string, lng: string) => {
-              return this.formatValue(value, format, lng as SupportedLanguage);
+            format: (value: any, format?: string, lng?: string) => {
+              return this.formatValue(value, format || '', lng as SupportedLanguage || this.config.defaultLanguage);
             }
           },
           
@@ -139,22 +139,18 @@ export class TranslationService {
           nsSeparator: ':',
           
           // Custom post processor for professional terms
-          postProcess: ['professionalTerms'],
-          
-          // ICU Message Format support
-          icuFormat: {
-            memoize: true,
-            memoizeFallback: true
-          }
-        });
+          postProcess: ['professionalTerms']
+        } as any);
 
       // Register custom post processor
-      i18n.services.postProcessor?.addPostProcessor('professionalTerms', {
-        type: 'postProcessor',
-        process: (value: string, key: string, options: any, translator: any) => {
-          return this.processWithProfessionalTerms(value, options.lng);
-        }
-      });
+      if (i18n.services && (i18n.services as any).postProcessor) {
+        (i18n.services as any).postProcessor.addPostProcessor('professionalTerms', {
+          type: 'postProcessor',
+          process: (value: string, key?: string, options?: any, translator?: any) => {
+            return this.processWithProfessionalTerms(value, options?.lng);
+          }
+        });
+      }
 
       this.initialized = true;
       
@@ -339,13 +335,7 @@ export class TranslationService {
    */
   translateError(errorCode: string, variables?: Record<string, any>, language?: SupportedLanguage): string {
     const errorKey = `errors.${errorCode}`;
-    let translation = this.translate(errorKey, { lng: language, replace: variables });
-    
-    if (translation === errorKey) {
-      translation = this.translate('errors.generic', { lng: language });
-    }
-    
-    return translation;
+    return this.translate(errorKey, { lng: language, replace: variables });
   }
 
   /**
@@ -569,6 +559,13 @@ export class TranslationService {
    */
   removeResource(language: SupportedLanguage, namespace: string, key: string): void {
     i18n.removeResourceBundle(language, namespace);
+  }
+
+  /**
+   * Get the underlying i18n instance for advanced use cases
+   */
+  get i18n() {
+    return i18n;
   }
 }
 

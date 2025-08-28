@@ -260,21 +260,27 @@ export function formatList(
   style: 'conjunction' | 'disjunction' = 'conjunction'
 ): string {
   if (items.length === 0) return '';
-  if (items.length === 1) return items[0];
+  if (items.length === 1) return items[0] || '';
   
   const locale = LANGUAGE_CONFIG[language]?.locale || 'en-US';
   
   try {
-    return new Intl.ListFormat(locale, {
-      style: 'long',
-      type: style === 'conjunction' ? 'conjunction' : 'disjunction'
-    }).format(items);
+    // Check if Intl.ListFormat is available
+    if (typeof (Intl as any).ListFormat === 'function') {
+      return new (Intl as any).ListFormat(locale, {
+        style: 'long',
+        type: style === 'conjunction' ? 'conjunction' : 'disjunction'
+      }).format(items);
+    }
   } catch (error) {
-    // Fallback for older browsers
-    const lastItem = items.pop()!;
-    const connector = style === 'conjunction' ? ' and ' : ' or ';
-    return items.length > 0 ? `${items.join(', ')}${connector}${lastItem}` : lastItem;
+    // Fall through to fallback
   }
+  
+  // Fallback for older browsers or when Intl.ListFormat is not available
+  const itemsCopy = [...items];
+  const lastItem = itemsCopy.pop()!;
+  const connector = style === 'conjunction' ? ' and ' : ' or ';
+  return itemsCopy.length > 0 ? `${itemsCopy.join(', ')}${connector}${lastItem}` : lastItem;
 }
 
 /**

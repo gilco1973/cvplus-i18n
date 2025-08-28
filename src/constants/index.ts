@@ -11,7 +11,7 @@ import type {
 
 // Core Language Configuration
 export const SUPPORTED_LANGUAGES: SupportedLanguage[] = [
-  'en', 'es', 'fr', 'de', 'pt', 'ja', 'zh', 'ar', 'ru', 'nl'
+  'en', 'es', 'fr', 'de', 'pt', 'ja', 'zh', 'ar', 'he', 'fa', 'ur', 'dv', 'ru', 'nl'
 ];
 
 export const DEFAULT_LANGUAGE: SupportedLanguage = 'en';
@@ -114,6 +114,54 @@ export const LANGUAGE_CONFIG: LanguageConfigMap = {
     pluralRules: ['zero', 'one', 'two', 'few', 'many', 'other'],
     rtlSupport: true,
   },
+  he: {
+    name: 'Hebrew',
+    nativeName: 'עברית',
+    flag: '🇮🇱',
+    dir: 'rtl',
+    locale: 'he-IL',
+    countryCode: 'IL',
+    dateFormat: 'dd/MM/yyyy',
+    currency: 'ILS',
+    pluralRules: ['one', 'two', 'many', 'other'],
+    rtlSupport: true,
+  },
+  fa: {
+    name: 'Persian',
+    nativeName: 'فارسی',
+    flag: '🇮🇷',
+    dir: 'rtl',
+    locale: 'fa-IR',
+    countryCode: 'IR',
+    dateFormat: 'yyyy/MM/dd',
+    currency: 'IRR',
+    pluralRules: ['one', 'other'],
+    rtlSupport: true,
+  },
+  ur: {
+    name: 'Urdu',
+    nativeName: 'اردو',
+    flag: '🇵🇰',
+    dir: 'rtl',
+    locale: 'ur-PK',
+    countryCode: 'PK',
+    dateFormat: 'dd/MM/yyyy',
+    currency: 'PKR',
+    pluralRules: ['one', 'other'],
+    rtlSupport: true,
+  },
+  dv: {
+    name: 'Divehi',
+    nativeName: 'ދިވެހި',
+    flag: '🇲🇻',
+    dir: 'rtl',
+    locale: 'dv-MV',
+    countryCode: 'MV',
+    dateFormat: 'dd/MM/yyyy',
+    currency: 'MVR',
+    pluralRules: ['one', 'other'],
+    rtlSupport: true,
+  },
   ru: {
     name: 'Russian',
     nativeName: 'Русский',
@@ -166,8 +214,8 @@ export const TRANSLATION_NAMESPACES: TranslationNamespace[] = [
 
 export const DEFAULT_NAMESPACE: TranslationNamespace = 'common';
 
-// RTL Languages
-export const RTL_LANGUAGES: SupportedLanguage[] = ['ar'];
+// RTL Languages  
+export const RTL_LANGUAGES: SupportedLanguage[] = ['ar', 'he', 'fa', 'ur', 'dv'];
 
 // Pluralization Rules
 export const PLURALIZATION_RULES: Record<SupportedLanguage, PluralizationRule> = {
@@ -213,6 +261,27 @@ export const PLURALIZATION_RULES: Record<SupportedLanguage, PluralizationRule> =
       if (count >= 11 && count <= 99) return 'many';
       return 'other';
     }
+  },
+  he: {
+    language: 'he',
+    rule: (count: number) => {
+      if (count === 1) return 'one';
+      if (count === 2) return 'two';
+      if (count > 10 && count < 20) return 'many';
+      return 'other';
+    }
+  },
+  fa: {
+    language: 'fa',
+    rule: (count: number) => count === 1 ? 'one' : 'other'
+  },
+  ur: {
+    language: 'ur',
+    rule: (count: number) => count === 1 ? 'one' : 'other'
+  },
+  dv: {
+    language: 'dv',
+    rule: (count: number) => count === 1 ? 'one' : 'other'
   },
   ru: {
     language: 'ru',

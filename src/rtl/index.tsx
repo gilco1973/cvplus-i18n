@@ -109,6 +109,9 @@ export class RTLService {
    * Update document direction
    */
   private updateDocumentDirection(direction: 'ltr' | 'rtl'): void {
+    // Always update current direction first
+    this.currentDirection = direction;
+    
     if (typeof document !== 'undefined') {
       document.documentElement.dir = direction;
       document.documentElement.classList.toggle('rtl', direction === 'rtl');
@@ -120,8 +123,6 @@ export class RTLService {
         document.documentElement.style.setProperty(prop, value);
       });
     }
-    
-    this.currentDirection = direction;
   }
 
   /**
@@ -163,41 +164,49 @@ export class RTLService {
     let transformedClasses = classes;
     
     if (mirrorLayout) {
-      // Transform flex directions
+      // Transform flex directions using temp placeholder to avoid conflicts
       transformedClasses = transformedClasses
+        .replace(/\bflex-row-reverse\b/g, '__TEMP_FLEX_ROW__')
         .replace(/\bflex-row\b/g, 'flex-row-reverse')
-        .replace(/\bflex-row-reverse\b/g, 'flex-row');
+        .replace(/__TEMP_FLEX_ROW__/g, 'flex-row');
       
-      // Transform text alignment
+      // Transform text alignment using temp placeholder to avoid conflicts
       transformedClasses = transformedClasses
+        .replace(/\btext-right\b/g, '__TEMP_TEXT_LEFT__')
         .replace(/\btext-left\b/g, 'text-right')
-        .replace(/\btext-right\b/g, 'text-left');
+        .replace(/__TEMP_TEXT_LEFT__/g, 'text-left');
       
-      // Transform float
+      // Transform float using temp placeholder to avoid conflicts
       transformedClasses = transformedClasses
+        .replace(/\bfloat-right\b/g, '__TEMP_FLOAT_LEFT__')
         .replace(/\bfloat-left\b/g, 'float-right')
-        .replace(/\bfloat-right\b/g, 'float-left');
+        .replace(/__TEMP_FLOAT_LEFT__/g, 'float-left');
     }
     
     if (adjustSpacing) {
-      // Transform margin classes (Tailwind CSS)
+      // Transform margin classes (Tailwind CSS) using temp placeholder to avoid conflicts
       transformedClasses = transformedClasses
+        .replace(/\bmr-(\d+)\b/g, '__TEMP_ML_$1__')
         .replace(/\bml-(\d+)\b/g, 'mr-$1')
-        .replace(/\bmr-(\d+)\b/g, 'ml-$1')
+        .replace(/__TEMP_ML_(\d+)__/g, 'ml-$1')
+        .replace(/\bpr-(\d+)\b/g, '__TEMP_PL_$1__')
         .replace(/\bpl-(\d+)\b/g, 'pr-$1')
-        .replace(/\bpr-(\d+)\b/g, 'pl-$1');
+        .replace(/__TEMP_PL_(\d+)__/g, 'pl-$1');
       
-      // Transform border classes
+      // Transform border classes using temp placeholder to avoid conflicts
       transformedClasses = transformedClasses
+        .replace(/\bborder-r\b/g, '__TEMP_BORDER_L__')
         .replace(/\bborder-l\b/g, 'border-r')
-        .replace(/\bborder-r\b/g, 'border-l')
+        .replace(/__TEMP_BORDER_L__/g, 'border-l')
+        .replace(/\bborder-r-(\d+)\b/g, '__TEMP_BORDER_L_$1__')
         .replace(/\bborder-l-(\d+)\b/g, 'border-r-$1')
-        .replace(/\bborder-r-(\d+)\b/g, 'border-l-$1');
+        .replace(/__TEMP_BORDER_L_(\d+)__/g, 'border-l-$1');
       
-      // Transform position classes
+      // Transform position classes using temp placeholder to avoid conflicts
       transformedClasses = transformedClasses
+        .replace(/\bright-(\d+)\b/g, '__TEMP_LEFT_$1__')
         .replace(/\bleft-(\d+)\b/g, 'right-$1')
-        .replace(/\bright-(\d+)\b/g, 'left-$1');
+        .replace(/__TEMP_LEFT_(\d+)__/g, 'left-$1');
     }
     
     return transformedClasses;
@@ -230,44 +239,70 @@ export class RTLService {
     }
     
     if (adjustSpacing) {
-      // Transform margins
-      if (styles.marginLeft) {
-        transformedStyles.marginRight = styles.marginLeft;
+      // Transform margins - swap left and right values
+      const tempMarginLeft = styles.marginLeft;
+      const tempMarginRight = styles.marginRight;
+      
+      if (tempMarginLeft !== undefined || tempMarginRight !== undefined) {
+        // First remove the original properties
         delete transformedStyles.marginLeft;
-      }
-      if (styles.marginRight) {
-        transformedStyles.marginLeft = styles.marginRight;
         delete transformedStyles.marginRight;
+        
+        // Then set the swapped values
+        if (tempMarginLeft !== undefined) {
+          transformedStyles.marginRight = tempMarginLeft;
+        }
+        if (tempMarginRight !== undefined) {
+          transformedStyles.marginLeft = tempMarginRight;
+        }
       }
       
-      // Transform padding
-      if (styles.paddingLeft) {
-        transformedStyles.paddingRight = styles.paddingLeft;
+      // Transform padding - swap left and right values
+      const tempPaddingLeft = styles.paddingLeft;
+      const tempPaddingRight = styles.paddingRight;
+      
+      if (tempPaddingLeft !== undefined || tempPaddingRight !== undefined) {
         delete transformedStyles.paddingLeft;
-      }
-      if (styles.paddingRight) {
-        transformedStyles.paddingLeft = styles.paddingRight;
         delete transformedStyles.paddingRight;
+        
+        if (tempPaddingLeft !== undefined) {
+          transformedStyles.paddingRight = tempPaddingLeft;
+        }
+        if (tempPaddingRight !== undefined) {
+          transformedStyles.paddingLeft = tempPaddingRight;
+        }
       }
       
-      // Transform borders
-      if (styles.borderLeft) {
-        transformedStyles.borderRight = styles.borderLeft;
+      // Transform borders - swap left and right values
+      const tempBorderLeft = styles.borderLeft;
+      const tempBorderRight = styles.borderRight;
+      
+      if (tempBorderLeft !== undefined || tempBorderRight !== undefined) {
         delete transformedStyles.borderLeft;
-      }
-      if (styles.borderRight) {
-        transformedStyles.borderLeft = styles.borderRight;
         delete transformedStyles.borderRight;
+        
+        if (tempBorderLeft !== undefined) {
+          transformedStyles.borderRight = tempBorderLeft;
+        }
+        if (tempBorderRight !== undefined) {
+          transformedStyles.borderLeft = tempBorderRight;
+        }
       }
       
-      // Transform positioning
-      if (styles.left) {
-        transformedStyles.right = styles.left;
+      // Transform positioning - swap left and right values
+      const tempLeft = styles.left;
+      const tempRight = styles.right;
+      
+      if (tempLeft !== undefined || tempRight !== undefined) {
         delete transformedStyles.left;
-      }
-      if (styles.right) {
-        transformedStyles.left = styles.right;
         delete transformedStyles.right;
+        
+        if (tempLeft !== undefined) {
+          transformedStyles.right = tempLeft;
+        }
+        if (tempRight !== undefined) {
+          transformedStyles.left = tempRight;
+        }
       }
     }
     

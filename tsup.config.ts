@@ -6,7 +6,15 @@ export default defineConfig({
     react: 'src/react.ts',
   },
   format: ['cjs', 'esm'],
-  dts: true,
+  dts: {
+    resolve: true,
+    compilerOptions: {
+      declaration: true,
+      declarationMap: true,
+      skipLibCheck: true,
+      moduleResolution: 'node',
+    }
+  },
   splitting: false,
   sourcemap: true,
   clean: true,
@@ -19,6 +27,15 @@ export default defineConfig({
   minify: false, // Keep readable for debugging
   target: 'es2020',
   outDir: 'dist',
+  esbuildOptions(options) {
+    options.chunkNames = '[name]-[hash]';
+    // Suppress warnings about mixed exports and unused imports
+    options.logLevel = 'error';
+    options.pure = ['console.log', 'console.warn'];
+  },
+  outExtension: ({ format }) => ({
+    js: format === 'cjs' ? '.js' : '.esm.js',
+  }),
   onSuccess: async () => {
     console.log('✅ @cvplus/i18n built successfully');
     

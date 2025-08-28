@@ -11,13 +11,21 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": false,
-    "composite": true,
-    "incremental": true,
-    "tsBuildInfoFile": ".tsbuildinfo"
+    "composite": false,
+    "incremental": false,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ES2020",
+    "module": "ESNext",
+    "exactOptionalPropertyTypes": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
   "include": [
-    "src/**/*",
-    "locales/**/*"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "locales/**/*.json"
   ],
   "exclude": [
     "node_modules",
@@ -25,11 +33,11 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
-    "**/*.spec.tsx"
+    "**/*.spec.tsx",
+    "test-setup.ts",
+    "__tests__"
   ],
-  "references": [
-    {
-      "path": "../core"
-    }
-  ]
+  "ts-node": {
+    "esm": true
+  }
 }
