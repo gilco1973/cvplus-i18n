@@ -101,6 +101,9 @@ export {
 // Core functionality
 export { default as i18nConfig } from './config';
 
+// Backend Firebase Functions are exported from separate entry point
+// Import from '@cvplus/i18n/functions' to use Firebase Functions
+
 /**
  * Initialize the i18n system with default configuration
  */

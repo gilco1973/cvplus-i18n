@@ -32,6 +32,8 @@ export default defineConfig({
     // Suppress warnings about mixed exports and unused imports
     options.logLevel = 'error';
     options.pure = ['console.log', 'console.warn'];
+    // Exclude backend functions from bundle (they're Firebase Functions)
+    options.external = [...(options.external || []), './backend/functions', './backend/functions/*'];
   },
   outExtension: ({ format }) => ({
     js: format === 'cjs' ? '.js' : '.esm.js',

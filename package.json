@@ -16,32 +16,46 @@
       "import": "./dist/react.esm.js",
       "require": "./dist/react.js"
     },
+    "./functions": {
+      "types": "./src/backend/functions/index.ts",
+      "import": "./src/backend/functions/index.ts",
+      "require": "./src/backend/functions/index.ts"
+    },
     "./locales/*": "./dist/locales/*"
   },
   "files": [
     "dist/",
+    "src/backend/",
     "locales/",
     "README.md"
   ],
   "scripts": {
     "build": "tsup src/index.ts src/react.ts --format cjs,esm --dts --clean",
+    "build:locales": "node scripts/build/build-locales.js",
     "dev": "tsup src/index.ts src/react.ts --format cjs,esm --dts --watch",
     "lint": "eslint src --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
+    "test:rtl": "vitest --run --grep='RTL'",
     "clean": "rm -rf dist node_modules",
     "extract:keys": "node scripts/extract-translation-keys.js",
     "validate:translations": "node scripts/validate-translations.js",
-    "generate:types": "node scripts/generate-types.js"
+    "validate:rtl": "node scripts/test/validate-rtl.js",
+    "generate:types": "node scripts/generate-types.js",
+    "deploy:translations": "node scripts/deployment/deploy-translations.js",
+    "deploy:dev": "node scripts/deployment/deploy-translations.js development",
+    "deploy:staging": "node scripts/deployment/deploy-translations.js staging",
+    "deploy:prod": "node scripts/deployment/deploy-translations.js production",
+    "validate-dependencies": "./scripts/validate-dependencies.sh"
   },
   "dependencies": {
-    "@cvplus/core": "^1.0.0",
+    "@cvplus/core": "file:../core",
     "@formatjs/intl-datetimeformat": "^6.12.5",
     "@formatjs/intl-numberformat": "^8.10.3",
     "@formatjs/intl-pluralrules": "^5.2.14",
     "@formatjs/intl-relativetimeformat": "^11.2.14",
-    "i18next": "^23.15.1",
+    "i18next": "^25.4.2",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.6.1",
     "i18next-icu": "^2.3.0",
