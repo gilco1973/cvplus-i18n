@@ -7,14 +7,14 @@
 
 import * as admin from 'firebase-admin';
 import { RegionalConfiguration } from '../types/regional-localization';
-import { RegionalScoreCalculator } from './regional-localization/RegionalScoreCalculator';
-import { ComplianceChecker } from './regional-localization/ComplianceChecker';
-import { CulturalOptimizer } from './regional-localization/CulturalOptimizer';
-import type { 
-  RegionalOptimizationRequest, 
+import { RegionalScoreCalculator } from '../regional-localization/RegionalScoreCalculator';
+import { ComplianceChecker } from '../regional-localization/ComplianceChecker';
+import { CulturalOptimizer } from '../regional-localization/CulturalOptimizer';
+import type {
+  RegionalOptimizationRequest,
   RegionalOptimizationResult,
-  LocalizedRecommendation 
-} from './regional-localization/types';
+  LocalizedRecommendation
+} from '../regional-localization/types';
 
 // Initialize admin if not already done
 if (!admin.apps.length) {
@@ -336,8 +336,4 @@ export class RegionalLocalizationService {
 // Export singleton instance
 export const regionalLocalizationService = RegionalLocalizationService.getInstance();
 
-// Export types for external use
-export type { 
-  RegionalOptimizationRequest, 
-  RegionalOptimizationResult 
-} from './regional-localization/types';
+// Types are exported directly from index.ts via '../regional-localization/types'

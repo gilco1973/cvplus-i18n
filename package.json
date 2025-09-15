@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "@cvplus/core": "file:../core",
+    "@cvplus/logging": "file:../logging",
     "@formatjs/intl-datetimeformat": "^6.12.5",
     "@formatjs/intl-numberformat": "^8.10.3",
     "@formatjs/intl-pluralrules": "^5.2.14",
