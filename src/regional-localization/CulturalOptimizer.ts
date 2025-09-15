@@ -2,8 +2,7 @@
  * Cultural Optimization Engine
  */
 
-import { ParsedCV } from '../../types/job';
-import { RegionalConfiguration } from '../../types/regional-localization';
+import { ParsedCV, RegionalConfiguration } from './types';
 import { FormatAdjustment, ContentAdjustment, LanguageOptimization } from './types';
 
 export class CulturalOptimizer {

@@ -1,12 +1,11 @@
 /**
  * Regional Localization Service - Refactored
- * 
+ *
  * Provides CV optimization for different global regions with
  * cultural preferences, legal compliance, and local market insights.
  */
 
 import * as admin from 'firebase-admin';
-import { RegionalConfiguration } from '../types/regional-localization';
 import { RegionalScoreCalculator } from '../regional-localization/RegionalScoreCalculator';
 import { ComplianceChecker } from '../regional-localization/ComplianceChecker';
 import { CulturalOptimizer } from '../regional-localization/CulturalOptimizer';
@@ -15,6 +14,171 @@ import type {
   RegionalOptimizationResult,
   LocalizedRecommendation
 } from '../regional-localization/types';
+
+// Regional configuration interface based on the core package types
+interface RegionalConfiguration {
+  regionId: string;
+  regionName: string;
+  countryCode: string;
+  languageCode: string;
+  currency: string;
+
+  // Market characteristics
+  marketData?: {
+    unemploymentRate: number;
+    averageSalary: number;
+    costOfLiving: number;
+    economicGrowth: number;
+    inflationRate: number;
+  };
+
+  // Job market specifics
+  jobMarket?: {
+    competitiveness: number; // 0-1
+    averageTimeToHire: number;
+    topIndustries?: Array<{
+      industry: string;
+      marketShare: number;
+      growth: number;
+    }>;
+    skillsInDemand?: Array<{
+      skill: string;
+      demandLevel: number;
+      salaryPremium: number;
+    }>;
+  };
+
+  // CV and application preferences
+  applicationPreferences?: {
+    cvFormat: 'chronological' | 'functional' | 'combination' | 'creative';
+    preferredLength: number; // pages
+    photoRequired: boolean;
+    personalInfoRequired: {
+      age: boolean;
+      maritalStatus: boolean;
+      nationality: boolean;
+      photo: boolean;
+    };
+
+    // Document preferences
+    fileFormats: string[]; // ['pdf', 'docx', etc.]
+    coverLetterRequired: boolean;
+    portfolioExpected: boolean;
+
+    // Application process
+    applicationMethods: string[]; // ['email', 'online_form', 'ats', 'linkedin']
+    followUpCulture: 'expected' | 'discouraged' | 'neutral';
+    responseTime: {
+      average: number; // days
+      acceptable: number; // days
+    };
+  };
+
+  // Legacy compatibility properties for score calculator
+  formatPreferences?: {
+    photoRequired?: boolean;
+    preferredLength?: number;
+    dateFormat?: string;
+  };
+
+  contentGuidelines?: {
+    requiredSections?: string[];
+    discouragedSections?: string[];
+  };
+
+  languageGuidelines?: {
+    formalityLevel?: string;
+    preferredTerminology?: string[];
+    cvTerminology?: string;
+  };
+
+  legalRestrictions?: {
+    prohibitedInfo?: string[];
+    photoRequired?: boolean;
+  };
+
+  // Cultural considerations
+  culturalFactors?: {
+    workCulture: 'hierarchical' | 'flat' | 'mixed';
+    communicationStyle: 'direct' | 'indirect' | 'context_dependent';
+    businessFormality: 'formal' | 'casual' | 'flexible';
+
+    // Interview preferences
+    interviewStyle: 'behavioral' | 'technical' | 'case_study' | 'mixed';
+    dresscode: 'formal' | 'business_casual' | 'casual';
+
+    // Networking importance
+    networkingImportance: number; // 0-1
+    referralImpact: number; // 0-1
+  };
+
+  // Legal and compliance
+  legalRequirements?: {
+    workPermitRequired: boolean;
+    discriminationLaws: string[];
+    mandatoryDisclosures: string[];
+    dataPrivacyRegulations: string[];
+
+    // Visa and work authorization
+    visaSponsorship: {
+      availability: number; // 0-1
+      commonVisaTypes: string[];
+      processingTime: number; // days
+      cost: number;
+    };
+  };
+
+  // Language and localization
+  localizationSettings?: {
+    dateFormat: string;
+    numberFormat: string;
+    addressFormat: string;
+    phoneFormat: string;
+
+    // Language preferences
+    businessLanguage: string;
+    alternateLanguages: string[];
+    proficiencyExpectations: {
+      [language: string]: 'basic' | 'conversational' | 'fluent' | 'native';
+    };
+  };
+
+  // Seasonal patterns
+  seasonalPatterns?: {
+    hiringSeasons: Array<{
+      season: string;
+      months: number[];
+      activity: number; // 0-1
+    }>;
+    holidayImpacts: Array<{
+      holiday: string;
+      dates: string;
+      impact: 'low' | 'medium' | 'high';
+    }>;
+  };
+
+  // Economic indicators
+  economicIndicators?: {
+    gdpPerCapita: number;
+    purchasingPower: number;
+    businessEase: number; // World Bank ranking
+    innovationIndex: number;
+    digitalReadiness: number;
+  };
+
+  // Technology adoption
+  technologyLandscape?: {
+    internetPenetration: number;
+    mobilePenetration: number;
+    digitalPaymentAdoption: number;
+    remoteWorkAcceptance: number;
+
+    // Popular platforms
+    jobBoards: string[];
+    professionalNetworks: string[];
+    communicationTools: string[];
+  };
+}
 
 // Initialize admin if not already done
 if (!admin.apps.length) {
@@ -154,7 +318,7 @@ export class RegionalLocalizationService {
       networkingValue > 0.7 ? 'high' : networkingValue > 0.4 ? 'medium' : 'low';
     
     return {
-      popularIndustries: regionConfig.jobMarket?.topIndustries?.map(i => i.industry) || [],
+      popularIndustries: regionConfig.jobMarket?.topIndustries?.map((i: any) => i.industry) || [],
       averageJobSearchDuration: regionConfig.jobMarket?.averageTimeToHire || 90,
       networkingImportance,
       remoteWorkAdoption: regionConfig.technologyLandscape?.remoteWorkAcceptance || 0.5,
@@ -182,7 +346,7 @@ export class RegionalLocalizationService {
         title: 'Legal Compliance Issue',
         description: issue.description,
         actionItems: [issue.solution],
-        culturalContext: `Required for compliance in ${regionConfig.regionName}`,
+        culturalContext: `Required for compliance in ${regionConfig.regionName || regionConfig.regionId}`,
         impact: issue.severity === 'error' ? 0.9 : 0.5
       });
     }

@@ -2,8 +2,7 @@
  * Regional Score Calculator
  */
 
-import { ParsedCV } from '../../types/job';
-import { RegionalConfiguration } from '../../types/regional-localization';
+import { ParsedCV, RegionalConfiguration } from './types';
 
 export class RegionalScoreCalculator {
   /**

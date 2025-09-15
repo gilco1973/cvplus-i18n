@@ -2,9 +2,7 @@
  * Legal Compliance Checker
  */
 
-import { ParsedCV } from '../../types/job';
-import { RegionalConfiguration } from '../../types/regional-localization';
-import { ComplianceIssue } from './types';
+import { ParsedCV, RegionalConfiguration, ComplianceIssue } from './types';
 
 export class ComplianceChecker {
   /**
@@ -17,7 +15,7 @@ export class ComplianceChecker {
     // Check prohibited information
     const prohibitedInfo = regionConfig.legalRestrictions?.prohibitedInfo || [];
     for (const info of prohibitedInfo) {
-      const issue = this.checkProhibitedInfo(cvData, info, regionConfig.regionName);
+      const issue = this.checkProhibitedInfo(cvData, info, regionConfig.regionName || regionConfig.regionId);
       if (issue) {
         issues.push(issue);
       }

@@ -2,7 +2,58 @@
  * Regional Localization Types
  */
 
-import { ParsedCV } from '../../types/job';
+// Minimal ParsedCV interface for regional localization
+export interface ParsedCV {
+  personalInfo?: {
+    name?: string;
+    email?: string;
+    phone?: string;
+    address?: string;
+    photo?: string;
+    age?: number;
+    nationality?: string;
+    maritalStatus?: string;
+    gender?: string;
+  };
+  experience?: Array<{
+    title: string;
+    company: string;
+    startDate: string;
+    endDate?: string;
+    description?: string;
+  }>;
+  education?: Array<{
+    degree: string;
+    institution: string;
+    year: string;
+    grade?: string;
+  }>;
+  skills?: string[];
+  languages?: Array<{
+    language: string;
+    level: string;
+  }>;
+  certifications?: Array<{
+    name: string;
+    issuer: string;
+    date: string;
+  }>;
+  [key: string]: any;
+}
+
+// Regional configuration interface (minimal version for compliance checking)
+export interface RegionalConfiguration {
+  regionId: string;
+  regionName?: string;
+  legalRestrictions?: {
+    prohibitedInfo?: string[];
+    photoRequired?: boolean;
+  };
+  culturalFactors?: {
+    networkingImportance?: number;
+  };
+  [key: string]: any;
+}
 
 export interface RegionalOptimizationRequest {
   userId: string;
