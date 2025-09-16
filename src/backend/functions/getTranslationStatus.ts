@@ -1,6 +1,6 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions/v2';
-import { authGuard } from '../middleware/authGuard';
+import { authGuard } from '@cvplus/auth/middleware/authGuard';
 import { TranslationService, SUPPORTED_LANGUAGES } from '../../index';
 import { SupportedLanguage } from '../../index';
 

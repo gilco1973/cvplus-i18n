@@ -1,7 +1,7 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions/v2';
 import { getFirestore } from 'firebase-admin/firestore';
-import { authGuard } from '../middleware/authGuard';
+import { authGuard } from '@cvplus/auth/middleware/authGuard';
 import { SupportedLanguage, SUPPORTED_LANGUAGES } from '../../index';
 
 interface UpdateTranslationsRequest {

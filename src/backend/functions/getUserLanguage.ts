@@ -2,7 +2,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions/v2';
 import { getFirestore } from 'firebase-admin/firestore';
 import { authGuard } from '../middleware/authGuard';
-import { SupportedLanguage, SUPPORTED_LANGUAGES } from '../../index';
+import { SupportedLanguage, SUPPORTED_LANGUAGES } from '@cvplus/i18n';
 
 interface GetUserLanguageRequest {
   userId?: string;
@@ -66,7 +66,7 @@ export const getUserLanguage = onCall<GetUserLanguageRequest, Promise<GetUserLan
 
       if (userDoc.exists) {
         const userData = userDoc.data();
-        
+
         // Check for language preferences
         if (userData?.language && SUPPORTED_LANGUAGES.includes(userData.language)) {
           language = userData.language;
@@ -92,14 +92,14 @@ export const getUserLanguage = onCall<GetUserLanguageRequest, Promise<GetUserLan
           const detectedLanguage = detectLanguageFromHeader(browserLanguage);
           if (detectedLanguage && SUPPORTED_LANGUAGES.includes(detectedLanguage)) {
             language = detectedLanguage;
-            
+
             // Save detected language for future use
             await userDocRef.set({
               language: detectedLanguage,
               languageUpdated: Date.now(),
               languageSource: 'auto-detected',
             }, { merge: true });
-            
+
             isDefault = false;
           }
         }
@@ -177,7 +177,7 @@ export const updateUserLanguage = onCall<{
       // Validate preferences if provided
       if (preferences) {
         const { cvLanguage, interfaceLanguage, communicationLanguage } = preferences;
-        
+
         if (cvLanguage && !SUPPORTED_LANGUAGES.includes(cvLanguage)) {
           throw new HttpsError('invalid-argument', 'Invalid CV language specified');
         }
@@ -191,7 +191,7 @@ export const updateUserLanguage = onCall<{
 
       const db = getFirestore();
       const userDocRef = db.collection('users').doc(auth.uid);
-      
+
       const updateData: any = {
         language,
         languageUpdated: Date.now(),

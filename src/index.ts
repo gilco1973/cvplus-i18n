@@ -10,12 +10,10 @@ export * from './services/translation.service';
 export * from './constants';
 export * from './types';
 
-// Regional optimization framework (legacy - will be deprecated)
-export * from './services/regional-localization.service';
-export * from './regional-localization/ComplianceChecker';
-export * from './regional-localization/CulturalOptimizer';
-export * from './regional-localization/RegionalScoreCalculator';
-export * from './regional-localization/types';
+// Regional optimization framework has been moved to @cvplus/cv-processing
+// Legacy exports maintained for backward compatibility during transition
+// TODO: Remove these deprecated exports in next major version
+// Use: import { ... } from '@cvplus/cv-processing/regional' instead
 
 // Initialize function for React apps
 export async function initializeI18n(): Promise<void> {

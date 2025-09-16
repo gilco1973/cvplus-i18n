@@ -1,7 +1,7 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions/v2';
-import { authGuard } from '../middleware/authGuard';
-import { premiumGuard } from '../middleware/premiumGuard';
+import { authGuard } from '@cvplus/auth/middleware/authGuard';
+import { premiumGuard } from '@cvplus/premium/middleware/premiumGuard';
 import { TranslationService } from '../../index';
 import { SupportedLanguage } from '../../index';
 
