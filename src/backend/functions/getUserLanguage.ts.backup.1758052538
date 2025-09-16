@@ -23,7 +23,7 @@ interface GetUserLanguageResponse {
 /**
  * Firebase Function to get user's preferred language settings
  * Returns user language preferences or defaults
-  */
+ */
 export const getUserLanguage = onCall<GetUserLanguageRequest, Promise<GetUserLanguageResponse>>(
   {
     region: 'us-central1',
@@ -144,7 +144,7 @@ export const getUserLanguage = onCall<GetUserLanguageRequest, Promise<GetUserLan
 
 /**
  * Update user language preferences
-  */
+ */
 export const updateUserLanguage = onCall<{
   language: SupportedLanguage;
   preferences?: {
@@ -237,7 +237,7 @@ export const updateUserLanguage = onCall<{
 
 /**
  * Detect language from Accept-Language header
-  */
+ */
 function detectLanguageFromHeader(acceptLanguage: string): SupportedLanguage | null {
   const languages = acceptLanguage
     .split(',')

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Test setup for @cvplus/i18n
-  */
+ */
 
 import { vi } from 'vitest';
 

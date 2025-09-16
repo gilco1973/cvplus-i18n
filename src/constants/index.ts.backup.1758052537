@@ -1,6 +1,6 @@
 /**
  * @fileoverview Core constants for CVPlus i18n system
-  */
+ */
 
 import type { 
   SupportedLanguage, 

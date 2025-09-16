@@ -28,7 +28,7 @@ interface TranslateDynamicResponse {
 /**
  * Firebase Function to translate dynamic content (user-generated text, descriptions, etc.)
  * Supports strings, arrays of strings, and objects with string values
-  */
+ */
 export const translateDynamic = onCall<TranslateDynamicRequest, Promise<TranslateDynamicResponse>>(
   {
     region: 'us-central1',
@@ -201,7 +201,7 @@ export const translateDynamic = onCall<TranslateDynamicRequest, Promise<Translat
 
 /**
  * Batch translation for multiple pieces of content
-  */
+ */
 export const translateBatch = onCall<{
   items: Array<{
     id: string;

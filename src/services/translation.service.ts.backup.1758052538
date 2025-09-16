@@ -1,7 +1,7 @@
 /**
  * @fileoverview Core Translation Service for CVPlus i18n system
  * Provides comprehensive translation management, caching, and validation
-  */
+ */
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -70,7 +70,7 @@ export class TranslationService {
 
   /**
    * Get singleton instance
-    */
+   */
   static getInstance(config?: Partial<TranslationServiceConfig>): TranslationService {
     if (!TranslationService.instance) {
       TranslationService.instance = new TranslationService(config);
@@ -80,7 +80,7 @@ export class TranslationService {
 
   /**
    * Initialize the translation service
-    */
+   */
   async initialize(): Promise<void> {
     if (this.initialized) return;
 
@@ -172,7 +172,7 @@ export class TranslationService {
 
   /**
    * Translate a key with comprehensive options
-    */
+   */
   translate(key: string, options: TranslationOptions = {}): string {
     try {
       const cacheKey = this.getCacheKey(key, options);
@@ -213,12 +213,12 @@ export class TranslationService {
 
   /**
    * Translate with namespace shorthand
-    */
+   */
   t = this.translate.bind(this);
 
   /**
    * Change language with RTL support
-    */
+   */
   async changeLanguage(language: SupportedLanguage): Promise<void> {
     if (!this.config.supportedLanguages.includes(language)) {
       throw new Error(`Language "${language}" is not supported`);
@@ -262,14 +262,14 @@ export class TranslationService {
 
   /**
    * Get current language
-    */
+   */
   getCurrentLanguage(): SupportedLanguage {
     return (i18n.language || this.config.defaultLanguage) as SupportedLanguage;
   }
 
   /**
    * Check if language is RTL
-    */
+   */
   isRTL(language?: SupportedLanguage): boolean {
     const lang = language || this.getCurrentLanguage();
     return LANGUAGE_CONFIG[lang]?.dir === 'rtl';
@@ -277,7 +277,7 @@ export class TranslationService {
 
   /**
    * Get text direction
-    */
+   */
   getDirection(language?: SupportedLanguage): 'ltr' | 'rtl' {
     const lang = language || this.getCurrentLanguage();
     return LANGUAGE_CONFIG[lang]?.dir || 'ltr';
@@ -285,7 +285,7 @@ export class TranslationService {
 
   /**
    * Get locale for Intl APIs
-    */
+   */
   getLocale(language?: SupportedLanguage): string {
     const lang = language || this.getCurrentLanguage();
     return LANGUAGE_CONFIG[lang]?.locale || 'en-US';
@@ -293,7 +293,7 @@ export class TranslationService {
 
   /**
    * Translate CV section
-    */
+   */
   translateCVSection(section: string, language?: SupportedLanguage): string {
     const sectionKey = `cv.sections.${section}`;
     return this.translate(sectionKey, { lng: language });
@@ -301,7 +301,7 @@ export class TranslationService {
 
   /**
    * Translate professional role
-    */
+   */
   translateRole(role: string, industry?: string, language?: SupportedLanguage): string {
     const baseKey = `roles.${role.toLowerCase().replace(/\s+/g, '_')}`;
     const industryKey = industry ? `${baseKey}.${industry}` : baseKey;
@@ -317,7 +317,7 @@ export class TranslationService {
 
   /**
    * Translate skill with category context
-    */
+   */
   translateSkill(skill: string, category?: string, language?: SupportedLanguage): string {
     const baseKey = `skills.items.${skill.toLowerCase().replace(/\s+/g, '_')}`;
     const categoryKey = category ? `skills.categories.${category}.${skill.toLowerCase().replace(/\s+/g, '_')}` : baseKey;
@@ -332,7 +332,7 @@ export class TranslationService {
 
   /**
    * Translate error message
-    */
+   */
   translateError(errorCode: string, variables?: Record<string, any>, language?: SupportedLanguage): string {
     const errorKey = `errors.${errorCode}`;
     return this.translate(errorKey, { lng: language, replace: variables });
@@ -340,7 +340,7 @@ export class TranslationService {
 
   /**
    * Translate form field labels and validation messages
-    */
+   */
   translateForm(fieldKey: string, type: 'label' | 'placeholder' | 'validation' | 'help', language?: SupportedLanguage): string {
     const formKey = `forms.${fieldKey}.${type}`;
     return this.translate(formKey, { lng: language });
@@ -348,7 +348,7 @@ export class TranslationService {
 
   /**
    * Load professional terminology
-    */
+   */
   private async loadProfessionalTerminology(): Promise<void> {
     try {
       // In a real implementation, this would load from API or local files
@@ -368,7 +368,7 @@ export class TranslationService {
 
   /**
    * Process text with professional terms replacement
-    */
+   */
   private processWithProfessionalTerms(value: string, language: SupportedLanguage): string {
     if (!this.professionalTerms || !value) return value;
     
@@ -379,7 +379,7 @@ export class TranslationService {
 
   /**
    * Format value based on type and locale
-    */
+   */
   private formatValue(value: any, format: string, language: SupportedLanguage): string {
     const locale = this.getLocale(language);
     
@@ -410,7 +410,7 @@ export class TranslationService {
 
   /**
    * Setup RTL support
-    */
+   */
   private setupRTLSupport(): void {
     const currentLang = this.getCurrentLanguage();
     const langConfig = LANGUAGE_CONFIG[currentLang];
@@ -424,7 +424,7 @@ export class TranslationService {
 
   /**
    * Generate cache key
-    */
+   */
   private getCacheKey(key: string, options: TranslationOptions): string {
     const parts = [
       key,
@@ -439,7 +439,7 @@ export class TranslationService {
 
   /**
    * Cache translation
-    */
+   */
   private cacheTranslation(cacheKey: string, value: string): void {
     if (this.translationCache.size >= this.config.caching.maxSize) {
       // Remove oldest entries
@@ -457,14 +457,14 @@ export class TranslationService {
 
   /**
    * Clear translation cache
-    */
+   */
   clearCache(): void {
     this.translationCache.clear();
   }
 
   /**
    * Setup cache cleanup
-    */
+   */
   private setupCacheCleanup(): void {
     setInterval(() => {
       const now = Date.now();
@@ -483,7 +483,7 @@ export class TranslationService {
 
   /**
    * Validate translations for completeness
-    */
+   */
   async validateTranslations(languages?: SupportedLanguage[]): Promise<TranslationValidation> {
     const langs = languages || this.config.supportedLanguages;
     const validation: TranslationValidation = {
@@ -502,7 +502,7 @@ export class TranslationService {
 
   /**
    * Preload language translations
-    */
+   */
   async preloadLanguage(language: SupportedLanguage): Promise<void> {
     try {
       await i18n.loadLanguages(language);
@@ -513,21 +513,21 @@ export class TranslationService {
 
   /**
    * Get loading state
-    */
+   */
   isLoading(): boolean {
     return !this.initialized;
   }
 
   /**
    * Get available languages
-    */
+   */
   getAvailableLanguages(): SupportedLanguage[] {
     return this.config.supportedLanguages;
   }
 
   /**
    * Get language configuration
-    */
+   */
   getLanguageConfig(language?: SupportedLanguage) {
     const lang = language || this.getCurrentLanguage();
     return LANGUAGE_CONFIG[lang];
@@ -535,35 +535,35 @@ export class TranslationService {
 
   /**
    * Check if translation exists
-    */
+   */
   exists(key: string, options?: { lng?: SupportedLanguage; ns?: string }): boolean {
     return i18n.exists(key, options);
   }
 
   /**
    * Get raw translation resource
-    */
+   */
   getResource(language: SupportedLanguage, namespace: string, key: string): any {
     return i18n.getResource(language, namespace, key);
   }
 
   /**
    * Add translation resource
-    */
+   */
   addResource(language: SupportedLanguage, namespace: string, key: string, value: any): void {
     i18n.addResource(language, namespace, key, value);
   }
 
   /**
    * Remove translation resource
-    */
+   */
   removeResource(language: SupportedLanguage, namespace: string, key: string): void {
     i18n.removeResourceBundle(language, namespace);
   }
 
   /**
    * Get the underlying i18n instance for advanced use cases
-    */
+   */
   get i18n() {
     return i18n;
   }

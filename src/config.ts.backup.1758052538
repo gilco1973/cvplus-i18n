@@ -1,7 +1,7 @@
 /**
  * @fileoverview Default configuration for CVPlus i18n module
  * Provides sensible defaults for i18n setup
-  */
+ */
 
 import type { TranslationServiceConfig } from './types';
 import { 
@@ -15,7 +15,7 @@ import {
 
 /**
  * Default i18n configuration for CVPlus applications
-  */
+ */
 export const defaultConfig: TranslationServiceConfig = {
   defaultLanguage: DEFAULT_LANGUAGE,
   fallbackLanguage: FALLBACK_LANGUAGE,
@@ -50,7 +50,7 @@ export const defaultConfig: TranslationServiceConfig = {
 
 /**
  * Production-optimized configuration
-  */
+ */
 export const productionConfig: Partial<TranslationServiceConfig> = {
   caching: {
     enabled: true,
@@ -70,7 +70,7 @@ export const productionConfig: Partial<TranslationServiceConfig> = {
 
 /**
  * Development configuration with debugging features
-  */
+ */
 export const developmentConfig: Partial<TranslationServiceConfig> = {
   caching: {
     enabled: false, // Disable caching for fresh translations during development
@@ -90,7 +90,7 @@ export const developmentConfig: Partial<TranslationServiceConfig> = {
 
 /**
  * Test environment configuration
-  */
+ */
 export const testConfig: Partial<TranslationServiceConfig> = {
   defaultLanguage: 'en',
   fallbackLanguage: 'en',
@@ -116,7 +116,7 @@ export const testConfig: Partial<TranslationServiceConfig> = {
 
 /**
  * Minimal configuration for lightweight applications
-  */
+ */
 export const minimalConfig: Partial<TranslationServiceConfig> = {
   supportedLanguages: ['en', 'es', 'fr'],
   namespaces: ['common', 'forms'],
@@ -138,7 +138,7 @@ export const minimalConfig: Partial<TranslationServiceConfig> = {
 
 /**
  * Enterprise configuration with all features enabled
-  */
+ */
 export const enterpriseConfig: Partial<TranslationServiceConfig> = {
   supportedLanguages: SUPPORTED_LANGUAGES,
   namespaces: [...TRANSLATION_NAMESPACES, 'enterprise', 'compliance', 'audit'],
@@ -172,7 +172,7 @@ export const enterpriseConfig: Partial<TranslationServiceConfig> = {
 
 /**
  * Get configuration based on environment
-  */
+ */
 export function getConfigForEnvironment(env?: string): TranslationServiceConfig {
   const environment = env || process.env.NODE_ENV || 'development';
   
@@ -193,7 +193,7 @@ export function getConfigForEnvironment(env?: string): TranslationServiceConfig 
 
 /**
  * Create custom configuration with overrides
-  */
+ */
 export function createConfig(overrides: Partial<TranslationServiceConfig> = {}): TranslationServiceConfig {
   return {
     ...defaultConfig,
@@ -223,7 +223,7 @@ export function createConfig(overrides: Partial<TranslationServiceConfig> = {}):
 
 /**
  * Validate configuration
-  */
+ */
 export function validateConfig(config: TranslationServiceConfig): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
   

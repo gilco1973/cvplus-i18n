@@ -1,6 +1,6 @@
 /**
  * @fileoverview Comprehensive TypeScript types for CVPlus i18n system
-  */
+ */
 
 // Core Language Types
 export type SupportedLanguage = 

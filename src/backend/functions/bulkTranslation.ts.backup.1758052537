@@ -54,7 +54,7 @@ interface BulkTranslationResponse {
 /**
  * Firebase Function for bulk translation operations
  * Handles large-scale translation jobs with progress tracking and retry logic
-  */
+ */
 export const bulkTranslation = onCall<BulkTranslationRequest, Promise<BulkTranslationResponse>>(
   {
     region: 'us-central1',
@@ -355,7 +355,7 @@ export const bulkTranslation = onCall<BulkTranslationRequest, Promise<BulkTransl
 
 /**
  * Get bulk translation job status
-  */
+ */
 export const getBulkTranslationStatus = onCall<{
   jobId: string;
   includeResults?: boolean;

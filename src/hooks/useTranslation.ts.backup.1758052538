@@ -1,7 +1,7 @@
 /**
  * @fileoverview Enhanced useTranslation hook with comprehensive i18n features
  * Provides React integration for CVPlus i18n system with formatting and RTL support
-  */
+ */
 
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { useTranslation as useI18nTranslation } from 'react-i18next';
@@ -32,7 +32,7 @@ export function useTranslation(namespace?: string): I18nHookReturn {
 
   /**
    * Enhanced translation function with error handling
-    */
+   */
   const t = useCallback((key: string, options?: TranslationOptions): string => {
     try {
       setError(null);
@@ -46,7 +46,7 @@ export function useTranslation(namespace?: string): I18nHookReturn {
 
   /**
    * Change language with loading state management
-    */
+   */
   const changeLanguage = useCallback(async (language: SupportedLanguage): Promise<void> => {
     try {
       setIsLoading(true);
@@ -82,7 +82,7 @@ export function useTranslation(namespace?: string): I18nHookReturn {
 
   /**
    * Format date with locale-specific options
-    */
+   */
   const formatDate = useCallback((
     date: Date | string,
     options?: DateFormatOptions
@@ -134,7 +134,7 @@ export function useTranslation(namespace?: string): I18nHookReturn {
 
   /**
    * Format number with locale-specific options
-    */
+   */
   const formatNumber = useCallback((
     num: number,
     options?: NumberFormatOptions
@@ -171,7 +171,7 @@ export function useTranslation(namespace?: string): I18nHookReturn {
 
   /**
    * Format currency with locale-specific options
-    */
+   */
   const formatCurrency = useCallback((
     amount: number,
     options?: CurrencyFormatOptions
@@ -213,7 +213,7 @@ export function useTranslation(namespace?: string): I18nHookReturn {
 
   /**
    * Format phone number with international standards
-    */
+   */
   const formatPhone = useCallback((
     phone: string,
     options?: PhoneFormatOptions
@@ -231,7 +231,7 @@ export function useTranslation(namespace?: string): I18nHookReturn {
 
   /**
    * Format percentage with locale-specific options
-    */
+   */
   const formatPercentage = useCallback((
     value: number,
     decimals = 1
@@ -250,7 +250,7 @@ export function useTranslation(namespace?: string): I18nHookReturn {
 
   /**
    * Format relative time (e.g., "2 days ago", "in 3 hours")
-    */
+   */
   const formatRelativeTime = useCallback((
     date: Date | string,
     unit?: Intl.RelativeTimeFormatUnit

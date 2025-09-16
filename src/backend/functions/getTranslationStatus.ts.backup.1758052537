@@ -46,7 +46,7 @@ interface TranslationStatusResponse {
 /**
  * Firebase Function to get translation status and completion statistics
  * Provides detailed information about translation coverage across languages and namespaces
-  */
+ */
 export const getTranslationStatus = onCall<GetTranslationStatusRequest, Promise<TranslationStatusResponse>>(
   {
     region: 'us-central1',
@@ -222,7 +222,7 @@ export const getTranslationStatus = onCall<GetTranslationStatusRequest, Promise<
 
 /**
  * Get translation progress for specific content or project
-  */
+ */
 export const getTranslationProgress = onCall<{
   projectId?: string;
   contentType?: 'cv' | 'profile' | 'general';

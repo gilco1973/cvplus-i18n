@@ -3,7 +3,7 @@
  *
  * This module provides comprehensive internationalization support for CVPlus,
  * including translation services, regional localization, and cultural adaptation.
-  */
+ */
 
 // Main translation service and constants
 export * from './services/translation.service';

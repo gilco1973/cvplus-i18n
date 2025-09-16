@@ -1,7 +1,7 @@
 /**
  * @fileoverview React-specific exports for @cvplus/i18n module
  * Provides React components, hooks, and utilities for internationalization
-  */
+ */
 
 // React hooks
 import { useTranslation } from './hooks/useTranslation';

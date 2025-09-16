@@ -3,7 +3,7 @@
  *
  * Specialized logger for internationalization and localization events
  * Tracks translation usage, missing keys, locale changes, and content adaptation
-  */
+ */
 
 import {
   LoggerFactory,
@@ -15,7 +15,7 @@ import {
 
 /**
  * i18n event types
-  */
+ */
 export enum I18nEventType {
   LOCALE_CHANGE = 'i18n.locale.change',
   TRANSLATION_REQUEST = 'i18n.translation.request',
@@ -35,7 +35,7 @@ export enum I18nEventType {
 
 /**
  * Translation context interface
-  */
+ */
 export interface I18nContext {
   userId?: string;
   sessionId?: string;
@@ -57,7 +57,7 @@ export interface I18nContext {
 
 /**
  * Translation miss tracking
-  */
+ */
 export interface TranslationMiss {
   key: string;
   namespace: string;
@@ -70,7 +70,7 @@ export interface TranslationMiss {
 
 /**
  * Specialized internationalization logger
-  */
+ */
 export class I18nLogger {
   private readonly logger: Logger;
   private readonly packageName = '@cvplus/i18n';
@@ -87,7 +87,7 @@ export class I18nLogger {
 
   /**
    * Log locale change
-    */
+   */
   localeChange(context: I18nContext, reason?: string): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -104,7 +104,7 @@ export class I18nLogger {
 
   /**
    * Log translation request
-    */
+   */
   translationRequest(context: I18nContext): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -121,7 +121,7 @@ export class I18nLogger {
 
   /**
    * Log missing translation
-    */
+   */
   translationMiss(context: I18nContext): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
     const missKey = `${context.locale}_${context.namespace}_${context.key}`;
@@ -153,7 +153,7 @@ export class I18nLogger {
 
   /**
    * Log translation fallback usage
-    */
+   */
   translationFallback(context: I18nContext): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -169,7 +169,7 @@ export class I18nLogger {
 
   /**
    * Log content loading
-    */
+   */
   contentLoad(context: I18nContext, success: boolean, loadTime?: number, error?: Error): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -198,7 +198,7 @@ export class I18nLogger {
 
   /**
    * Log content caching
-    */
+   */
   contentCache(context: I18nContext, cacheHit: boolean): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -213,7 +213,7 @@ export class I18nLogger {
 
   /**
    * Log language detection
-    */
+   */
   languageDetection(context: I18nContext, method: 'header' | 'cookie' | 'path' | 'subdomain' | 'query'): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -230,7 +230,7 @@ export class I18nLogger {
 
   /**
    * Log pluralization
-    */
+   */
   pluralization(context: I18nContext, rule: string): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -246,7 +246,7 @@ export class I18nLogger {
 
   /**
    * Log interpolation
-    */
+   */
   interpolation(context: I18nContext, paramCount: number): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -261,7 +261,7 @@ export class I18nLogger {
 
   /**
    * Log currency formatting
-    */
+   */
   currencyFormat(context: I18nContext, amount: number, result: string): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -277,7 +277,7 @@ export class I18nLogger {
 
   /**
    * Log date formatting
-    */
+   */
   dateFormat(context: I18nContext, date: Date, format: string, result: string): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -293,7 +293,7 @@ export class I18nLogger {
 
   /**
    * Log number formatting
-    */
+   */
   numberFormat(context: I18nContext, number: number, result: string): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -308,7 +308,7 @@ export class I18nLogger {
 
   /**
    * Log namespace loading
-    */
+   */
   namespaceLoad(context: I18nContext, success: boolean, keyCount?: number, error?: Error): void {
     const correlationId = CorrelationService.getCurrentCorrelationId();
 
@@ -336,7 +336,7 @@ export class I18nLogger {
 
   /**
    * Get translation miss statistics
-    */
+   */
   getTranslationMissStats(): {
     totalMisses: number;
     missesByLocale: Record<string, number>;
@@ -366,7 +366,7 @@ export class I18nLogger {
 
   /**
    * Clear translation miss tracking
-    */
+   */
   clearTranslationMisses(): number {
     const count = this.translationMisses.size;
     this.translationMisses.clear();
@@ -376,14 +376,14 @@ export class I18nLogger {
 
   /**
    * Log with correlation context
-    */
+   */
   withCorrelation<T>(correlationId: string, callback: () => T): T {
     return CorrelationService.withCorrelationId(correlationId, callback);
   }
 
   /**
    * Get logger statistics
-    */
+   */
   getStats(): {
     totalLogs: number;
     translationMisses: number;
@@ -407,16 +407,16 @@ export class I18nLogger {
 
 /**
  * Global i18n logger instance
-  */
+ */
 export const i18nLogger = new I18nLogger();
 
 /**
  * Convenience functions for common i18n logging scenarios
-  */
+ */
 export const i18nLogging = {
   /**
    * Log missing translation key
-    */
+   */
   missingKey: (key: string, locale: string, namespace: string = 'common') => {
     i18nLogger.translationMiss({
       key,
@@ -427,7 +427,7 @@ export const i18nLogging = {
 
   /**
    * Log locale switch
-    */
+   */
   switchLocale: (fromLocale: string, toLocale: string, userId?: string) => {
     i18nLogger.localeChange({
       currentLocale: fromLocale,
@@ -438,14 +438,14 @@ export const i18nLogging = {
 
   /**
    * Log content loading performance
-    */
+   */
   loadPerformance: (locale: string, namespace: string, loadTime: number) => {
     i18nLogger.contentLoad({ currentLocale: locale, namespace }, true, loadTime);
   },
 
   /**
    * Log format operation
-    */
+   */
   formatOperation: (type: 'currency' | 'date' | 'number', locale: string, value: any, result: string) => {
     const context = { currentLocale: locale };
 
@@ -465,7 +465,7 @@ export const i18nLogging = {
 
 /**
  * i18n logger middleware for Express
-  */
+ */
 export const i18nLoggerMiddleware = (req: any, res: any, next: any) => {
   // Add i18n context to request
   req.i18nLogger = i18nLogger;
@@ -482,7 +482,7 @@ export const i18nLoggerMiddleware = (req: any, res: any, next: any) => {
 
 /**
  * React hook for i18n logging (if using in frontend)
-  */
+ */
 export const useI18nLogging = () => {
   return {
     logMissingKey: i18nLogging.missingKey,
@@ -493,5 +493,5 @@ export const useI18nLogging = () => {
 
 /**
  * Default export
-  */
+ */
 export default I18nLogger;

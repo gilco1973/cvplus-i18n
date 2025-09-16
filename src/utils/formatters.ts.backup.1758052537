@@ -1,7 +1,7 @@
 /**
  * @fileoverview Comprehensive formatting utilities for CVPlus i18n
  * Provides locale-aware formatting for various data types
-  */
+ */
 
 import { parsePhoneNumber, AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import type { SupportedLanguage } from '../types';
@@ -9,7 +9,7 @@ import { LANGUAGE_CONFIG } from '../constants';
 
 /**
  * Format phone number with international standards
-  */
+ */
 export function formatPhoneNumber(
   phone: string, 
   country: string, 
@@ -41,7 +41,7 @@ export function formatPhoneNumber(
 
 /**
  * Format phone number as user types
-  */
+ */
 export function formatPhoneAsYouType(
   phone: string,
   country: string
@@ -57,7 +57,7 @@ export function formatPhoneAsYouType(
 
 /**
  * Format address based on country conventions
-  */
+ */
 export function formatAddress(
   address: {
     street?: string;
@@ -132,7 +132,7 @@ export function formatAddress(
 
 /**
  * Format name based on cultural conventions
-  */
+ */
 export function formatName(
   name: {
     first?: string;
@@ -185,7 +185,7 @@ export function formatName(
 
 /**
  * Format file size with locale-appropriate units
-  */
+ */
 export function formatFileSize(
   bytes: number,
   language: SupportedLanguage,
@@ -210,7 +210,7 @@ export function formatFileSize(
 
 /**
  * Format duration (seconds) into human-readable time
-  */
+ */
 export function formatDuration(
   seconds: number,
   language: SupportedLanguage,
@@ -253,7 +253,7 @@ export function formatDuration(
 
 /**
  * Format list of items with locale-appropriate conjunctions
-  */
+ */
 export function formatList(
   items: string[],
   language: SupportedLanguage,
@@ -285,7 +285,7 @@ export function formatList(
 
 /**
  * Format number ranges (e.g., "1-5", "1 to 5")
-  */
+ */
 export function formatRange(
   min: number,
   max: number,
@@ -323,7 +323,7 @@ export function formatRange(
 
 /**
  * Format percentile (e.g., "95th percentile")
-  */
+ */
 export function formatPercentile(
   percentile: number,
   language: SupportedLanguage
@@ -352,7 +352,7 @@ export function formatPercentile(
 
 /**
  * Format coordinate (latitude/longitude)
-  */
+ */
 export function formatCoordinate(
   coordinate: number,
   type: 'latitude' | 'longitude',
@@ -382,7 +382,7 @@ export function formatCoordinate(
 
 /**
  * Smart truncate text with locale-aware ellipsis
-  */
+ */
 export function formatTruncate(
   text: string,
   maxLength: number,

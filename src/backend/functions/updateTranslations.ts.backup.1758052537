@@ -35,7 +35,7 @@ interface UpdateTranslationsResponse {
 /**
  * Firebase Function to update translation files and manage translation content
  * Requires admin privileges or translator role
-  */
+ */
 export const updateTranslations = onCall<UpdateTranslationsRequest, Promise<UpdateTranslationsResponse>>(
   {
     region: 'us-central1',
@@ -247,7 +247,7 @@ export const updateTranslations = onCall<UpdateTranslationsRequest, Promise<Upda
 
 /**
  * Delete translation keys
-  */
+ */
 export const deleteTranslationKeys = onCall<{
   language: SupportedLanguage;
   namespace: string;
@@ -355,7 +355,7 @@ export const deleteTranslationKeys = onCall<{
 
 /**
  * Validate translation key format
-  */
+ */
 function isValidTranslationKey(key: string): boolean {
   // Allow alphanumeric characters, dots, underscores, and hyphens
   const validKeyPattern = /^[a-zA-Z0-9._-]+$/;
